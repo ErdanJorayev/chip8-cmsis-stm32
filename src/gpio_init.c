@@ -21,9 +21,9 @@ void GPIO_init(void)
     GPIOB->OSPEEDR &= ~(GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7); // Очистка (00)
     GPIOB->OSPEEDR |=  (GPIO_OSPEEDR_OSPEED6 | GPIO_OSPEEDR_OSPEED7); // Запись (11 - Very High)      
            
-    // Назначаем пинам альтернативную функцию (I2C1), в начале очистка
-    GPIOB->AFR[0] &= ~((15 << (6 * 4))  | (15 << (7 * 4)));
-    GPIOB->AFR[0] |=  ((4 << (6 * 4))   | (4 << (7 * 4)));
+    // Установка пинов именно на I2C1, в начале очистка
+    GPIOB->AFR[0] &= ~(GPIO_AFRL_AFSEL6 | GPIO_AFRL_AFSEL7);
+    GPIOB->AFR[0] |= (GPIO_AFRL_AFSEL6_2 | GPIO_AFRL_AFSEL7_2); 
 
     // Добавляем кнопки
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;                            
@@ -31,3 +31,4 @@ void GPIO_init(void)
     GPIOA->PUPDR &= ~(GPIO_PUPDR_PUPDR2 | GPIO_PUPDR_PUPDR3);       
     GPIOA->PUPDR |= (GPIO_PUPDR_PUPDR2_0 | GPIO_PUPDR_PUPDR3_0);     
 }
+

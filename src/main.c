@@ -21,10 +21,9 @@ int main(void)
     // Инициализация железо
     GPIO_init();
     EXTI_init();
-    SSD1306_Init();    // Инициализация модуля экрана по интерфейсу I2C1
+    SSD1306_Init();    
 
-    Chip8 core;
-
+    Chip8 core;        // Создание ядра CHIP-8
     Chip8_Init(&core); // Инициализация ядра
 
     // Кидаем нашу игру в память CHIP-8
@@ -66,10 +65,10 @@ void WorkChip8(Chip8 * chip8)
                 uint8_t screen_y = y * 2;
 
             // Рисуем квадрат 2x2 пикселя
-                SSD1306_DrawPixel(screen_x,     screen_y,     WHITE);
-                SSD1306_DrawPixel(screen_x + 1, screen_y,     WHITE);
-                SSD1306_DrawPixel(screen_x,     screen_y + 1, WHITE);
-                SSD1306_DrawPixel(screen_x + 1, screen_y + 1, WHITE);
+                SSD1306_DrawPixel(screen_x,     screen_y,     ON);
+                SSD1306_DrawPixel(screen_x + 1, screen_y,     ON);
+                SSD1306_DrawPixel(screen_x,     screen_y + 1, ON);
+                SSD1306_DrawPixel(screen_x + 1, screen_y + 1, ON);
             }
         }
     }    
