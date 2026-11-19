@@ -5,7 +5,7 @@
 // CHIP-8 instructions
 void Chip8_Cycle(Chip8 *chip8) 
 {
-    // Так как опкод состоит из 2 частей, а наш проц 8-битный, 
+    // Так как опкод состоит из 2 частей, а наш проц 8-битный
     chip8->opcode = (chip8->memory[chip8->pc] << 8) | chip8->memory[chip8->pc + 1];
     chip8->pc += 2;
 
@@ -242,13 +242,13 @@ void Chip8_Cycle(Chip8 *chip8)
 
                 case 0x0A: // Инструкция FX0A: LD Vx, K (Ожидание нажатия клавиши)
                 {
-                    bool key_pressed = false; // Флаг, была ли нажата хоть одна кнопка
+                    bool key_pressed = false;    // Флаг, была ли нажата хоть одна кнопка
                     for (int i = 0; i < 16; i++) // Сканируем весь массив клавиатуры
                     {
                         if (chip8->keypad[i] == 1) 
                         {
                             chip8->registers[X] = i; // Записываем номер нажатой клавиши в VX
-                            key_pressed = true; // Фиксируем нажатие
+                            key_pressed = true;      // Фиксируем нажатие
                             break;
                         }
                     }
@@ -282,10 +282,10 @@ void Chip8_Cycle(Chip8 *chip8)
 
                 case 0x33: // Инструкция FX33: LD B, Vx (BCD представление числа)
                 {
-                    uint8_t value = chip8->registers[X]; // Берем число из VX (0-255)
-                    chip8->memory[chip8->index]     = value / 100; // Раскладываем сотни по адресу I
+                    uint8_t value = chip8->registers[X];                 // Берем число из VX (0-255)
+                    chip8->memory[chip8->index]     = value / 100;       // Раскладываем сотни по адресу I
                     chip8->memory[chip8->index + 1] = (value / 10) % 10; // Раскладываем десятки по адресу I+1
-                    chip8->memory[chip8->index + 2] = value % 10; // Раскладываем единицы по адресу I+2
+                    chip8->memory[chip8->index + 2] = value % 10;        // Раскладываем единицы по адресу I+2
                     break;
                 }
 

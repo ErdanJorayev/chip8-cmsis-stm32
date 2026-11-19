@@ -15,7 +15,7 @@ int main(void)
     RCC->AHB1ENR |= RCC_AHB1ENR_GPIOCEN;
     GPIOC->MODER |= GPIO_MODER_MODER13_0; // Output
     GPIOC->BSRR = GPIO_BSRR_BR13;         // Зажечь светодиод
-    //___________________________________________________________________________
+    //____________________________________________________________________________
 
 
     // Инициализация железо
@@ -37,7 +37,7 @@ int main(void)
     }
 }
 
-// Work CHIP-8
+
 void WorkChip8(Chip8 * chip8)
 {
     HandleInput(chip8);
@@ -64,7 +64,7 @@ void WorkChip8(Chip8 * chip8)
                 uint8_t screen_x = x * 2;
                 uint8_t screen_y = y * 2;
 
-            // Рисуем квадрат 2x2 пикселя
+                // Рисуем квадрат 2x2 пикселя
                 SSD1306_DrawPixel(screen_x,     screen_y,     ON);
                 SSD1306_DrawPixel(screen_x + 1, screen_y,     ON);
                 SSD1306_DrawPixel(screen_x,     screen_y + 1, ON);

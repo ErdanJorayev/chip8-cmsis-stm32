@@ -16,12 +16,13 @@ CFLAGS  = $(MCU) $(DEFINES) $(INCLUDES) -O1 -g -Wall -fdata-sections -ffunction-
 LDFLAGS = $(MCU) -Tlinker_script.ld -nostartfiles -nodefaultlibs -nolibc -Wl,--gc-sections
 
 # Исходники проекта
-SRCS    = src/main.c \
+SRCS    = src/main.c      \
 		  src/init_work.c \
-		  src/pong.c \
+		  src/pong.c      \
 		  src/exti_init.c \
 		  src/gpio_init.c \
-		  chip8/core.c \
+		  chip8/core.c    \
+		  chip8/fonts.c   \
           ssd1306/fonts.c \
           ssd1306/ssd1306.c \
           startup_stm32f411xe.s
@@ -51,7 +52,7 @@ $(TARGET).elf: $(OBJS)
 $(TARGET).bin: $(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
 
-# Сборка + подчистка объектников (если хочешь оставлять только готовый bin)
+# Сборка + подчистка объектников, остается только готовый bin
 build: $(TARGET).bin
 	@echo "Удаляем промежуточные файлы..."
 	rm -f $(OBJS) $(TARGET).elf

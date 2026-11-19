@@ -2,7 +2,7 @@
 #define SSD1306_H
 
 #include <stdint.h>
-#include "fonts.h" // Для типов шрифтов
+#include "fonts.h" 
 
 // Геометрия дисплея
 #define SSD1306_WIDTH   128
@@ -18,9 +18,9 @@ typedef enum
 
 
 // Инициализация и системные функции
-void SSD1306_Init();
-void SSD1306_Update();
-void SSD1306_Clear();
+void SSD1306_Init();   // Инициализация I2C для экрана
+void SSD1306_Update(); // Обновление кадра
+void SSD1306_Clear();  // Очитска кадра
 
 void SSD1306_DrawPixel(uint8_t x, uint8_t y, PixelState state);                    // Пиксель
 void SSD1306_WriteChar(uint8_t x, uint8_t y, char ch, PixelState state);           // Символ
