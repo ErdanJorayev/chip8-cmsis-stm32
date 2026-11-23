@@ -1,23 +1,22 @@
 #include "stm32f4xx.h"
 
 void EXTI_init(void)
-{   // Тактирование и включение EXTI для пинов
-    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;                                     
-    SYSCFG->EXTICR[0] &= ~(SYSCFG_EXTICR1_EXTI2 | SYSCFG_EXTICR1_EXTI3);      
-    SYSCFG->EXTICR[0] |= (SYSCFG_EXTICR1_EXTI2_PA | SYSCFG_EXTICR1_EXTI3_PA); 
-    
-    // Настройка EXTI для пина PA2 (Кнопка 1)
-    EXTI->FTSR |= EXTI_FTSR_TR2; // Спадающий фронт (нажатие)
-    EXTI->RTSR |= EXTI_RTSR_TR2; // Возрастающий фронт (отпускание)
-    EXTI->IMR  |= EXTI_IMR_MR2;  // Разрешаем прерывание линии
-    EXTI->PR   =  EXTI_PR_PR2;   // Сброс флага прерывание   
-    NVIC_EnableIRQ(EXTI2_IRQn);  
+{
+    // Тактирование SYSCFG для привязки линий EXTI к портам GPIO
+    RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
 
-    
-    // Настройка EXTI для пина PA3 (Кнопка 2)
-    EXTI->FTSR |= EXTI_FTSR_TR3; // Спадающий фронт (нажатие)
-    EXTI->RTSR |= EXTI_RTSR_TR3; // Возрастающий фронт (отпускание)
-    EXTI->IMR  |= EXTI_IMR_MR3;  // Разрешаем прерывание линии
-    EXTI->PR   |= EXTI_PR_PR3;   // Сброс флага прерывание
-    NVIC_EnableIRQ(EXTI3_IRQn);  
+    // Линии EXTI5..7 и отдельно для EXTI8
+    SYSCFG->EXTICR[1] &= ~(SYSCFG_EXTICR2_EXTI5 | SYSCFG_EXTICR2_EXTI6 |
+                           SYSCFG_EXTICR2_EXTI7);
+    SYSCFG->EXTICR[2] &= ~SYSCFG_EXTICR3_EXTI8;
+
+    const uint32_t btn_mask = EXTI_FTSR_TR5 | EXTI_FTSR_TR6 |
+                              EXTI_FTSR_TR7 | EXTI_FTSR_TR8;
+
+    EXTI->FTSR |= btn_mask; // Спадающий фронт (нажатие на GND)
+    EXTI->RTSR |= btn_mask; // Возрастающий фронт (отпускание)
+    EXTI->IMR  |= btn_mask; // Разрешаем прерывания линий 5..8
+    EXTI->PR    = btn_mask; // Сбрасываем возможные висячие флаги (W1C)
+
+    NVIC_EnableIRQ(EXTI9_5_IRQn);
 }

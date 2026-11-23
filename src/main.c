@@ -6,7 +6,7 @@
 #include "inits.h"
 
 static void WorkChip8(Chip8 * chip8);
-
+enum games{ePong, eTetris, eSpace_Invaders};
 
 int main(void)
 {
@@ -25,15 +25,15 @@ int main(void)
 
     Chip8 core;        // Создание ядра CHIP-8
     Chip8_Init(&core); // Инициализация ядра
-
+    //Menu();
     // Кидаем нашу игру в память CHIP-8
-    memcpy(core.memory + START_ADDRESS, pong, PONG_SIZE);
+    memcpy(core.memory + START_ADDRESS, space_invaders, SPACE_INVADERS_SIZE);
 
     while (1)
     {
-        SSD1306_Clear(); // Очистка кадра буфера
-        WorkChip8(&core);
-        SSD1306_Update();
+        SSD1306_Clear();  // Очистка кадра 
+        WorkChip8(&core); 
+        SSD1306_Update(); // Обновление кадра
     }
 }
 
@@ -74,4 +74,19 @@ void WorkChip8(Chip8 * chip8)
     }    
 }
 
+/*
+void Menu(void)
+{
+    uint8_t 
+    SSD1306_WriteString(0, 10, "Pong     <"); 
+    SSD1306_WriteString(0, 20, "Tetris   <");
 
+    // Вывод на экран меню
+    // Мы можем выбирать игру через кнопки 
+    // Стрелка выбора игры рисуется отдельно, при нажатии кнопки просто меняется координа y
+    // При перемещении выбора кнопки у нас обновляется кадр
+    // После выбора у нас обычное число игры
+    // Потом через if else загружается игра в память
+}
+
+*/

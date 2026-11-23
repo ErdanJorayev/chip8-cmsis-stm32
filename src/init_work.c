@@ -1,11 +1,9 @@
 #include "core.h"
 #include "stm32f4xx.h"
 #include <string.h>
+#include "pong.h"
 
-
-volatile uint8_t key1_state = 0;
-volatile uint8_t key2_state = 0;
-
+static volatile bool key_state[4] = {false, false, false, false}; // Массив для состояние кнопок
 
 void Chip8_Init(Chip8 * chip8) 
 {
@@ -22,35 +20,34 @@ void Chip8_Init(Chip8 * chip8)
 
 void HandleInput(Chip8 * chip8) 
 {
-    chip8->keypad[0x1] = key1_state;   
-    chip8->keypad[0x4] = key2_state;     
+    chip8->keypad[0x4] = key_state[0];   
+    chip8->keypad[0x5] = key_state[1];
+    chip8->keypad[0x6] = key_state[1];
+
 }
 
-
-void EXTI2_IRQHandler(void)
+void EXTI9_5_IRQHandler(void)
 {
-    if (EXTI->PR & EXTI_PR_PR2)
+   
+    if (EXTI->PR & EXTI_PR_PR5) 
     {
-        EXTI->PR |= EXTI_PR_PR2; // Сбрасываем флаг прерывания
-        
-        // Читаем реальное состояние пина PA2 (при подтяжке Pull-Up: 0 — нажато, 1 — отпущено)
-        if (!(GPIOA->IDR & GPIO_IDR_ID2)) 
-            key1_state = 1; // Кнопка нажата
-        else 
-            key1_state = 0; // Кнопка отпущена
+        EXTI->PR = EXTI_PR_PR5;
+        key_state[0] = !(GPIOA->IDR & GPIO_IDR_ID5);
+    }
+    if (EXTI->PR & EXTI_PR_PR6) 
+    {
+        EXTI->PR = EXTI_PR_PR6;
+        key_state[1] = !(GPIOA->IDR & GPIO_IDR_ID6);
+    }
+    if (EXTI->PR & EXTI_PR_PR7) 
+    {
+        EXTI->PR = EXTI_PR_PR7;
+        key_state[2] = !(GPIOA->IDR & GPIO_IDR_ID7);
+    }
+    if (EXTI->PR & EXTI_PR_PR8) 
+    {
+        EXTI->PR = EXTI_PR_PR8;
+        key_state[3] = !(GPIOA->IDR & GPIO_IDR_ID8);
     }
 }
 
-void EXTI3_IRQHandler(void)
-{
-    if (EXTI->PR & EXTI_PR_PR3)
-    {
-        EXTI->PR |= EXTI_PR_PR3; // Сбрасываем флаг прерывания
-        
-        // Читаем реальное состояние пина PA3
-        if (!(GPIOA->IDR & GPIO_IDR_ID3)) 
-            key2_state = 1; // Кнопка нажата
-        else 
-            key2_state = 0; // Кнопка отпущена
-    }
-}

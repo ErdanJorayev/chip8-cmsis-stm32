@@ -34,17 +34,32 @@ g_pfnVectors:
     .word 0
     .word PendSV_Handler
     .word SysTick_Handler
-    /* Периферийные прерывания STM32F411 (заполняем нулями до позиции 9) */
-    .word 0                 /* Позиция 0: WWDG */
-    .word 0                 /* Позиция 1: PVD */
-    .word 0                 /* Позиция 2: TAMP_STAMP */
-    .word 0                 /* Позиция 3: RTC_WKUP */
-    .word 0                 /* Позиция 4: FLASH */
-    .word 0                 /* Позиция 5: RCC */
-    .word 0                 /* Позиция 6: EXTI0 */
-    .word 0                 /* Позиция 7: EXTI1 */
-    .word EXTI2_IRQHandler  /* Позиция 8: EXTI2 */
-    .word EXTI3_IRQHandler  /* Позиция 9: EXTI3 */
+    /* Периферийные прерывания STM32F411 */
+    .word 0                  /* Позиция 0: WWDG */
+    .word 0                  /* Позиция 1: PVD */
+    .word 0                  /* Позиция 2: TAMP_STAMP */
+    .word 0                  /* Позиция 3: RTC_WKUP */
+    .word 0                  /* Позиция 4: FLASH */
+    .word 0                  /* Позиция 5: RCC */
+    .word 0                  /* Позиция 6: EXTI0 */
+    .word 0                  /* Позиция 7: EXTI1 */
+    .word 0                  /* Позиция 8: EXTI2 */
+    .word 0                  /* Позиция 9: EXTI3 */
+    .word 0                  /* Позиция 10: EXTI4 */
+    .word 0                  /* Позиция 11: DMA1_Stream0 */
+    .word 0                  /* Позиция 12: DMA1_Stream1 */
+    .word 0                  /* Позиция 13: DMA1_Stream2 */
+    .word 0                  /* Позиция 14: DMA1_Stream3 */
+    .word 0                  /* Позиция 15: DMA1_Stream4 */
+    .word 0                  /* Позиция 16: DMA1_Stream5 */
+    .word 0                  /* Позиция 17: DMA1_Stream6 */
+    .word 0                  /* Позиция 18: ADC */
+    .word 0                  /* Позиция 19: В мануале пусто */
+    .word 0                  /* Позиция 20: В мануале пусто */
+    .word 0                  /* Позиция 21: В мануале пусто */
+    .word 0                  /* Позиция 22: В мануале пусто */
+    .word EXTI9_5_IRQHandler /* Позиция 23: EXTI9_5 */
+
 
 /* Обработчик Reset */
 .section .text.Reset_Handler
